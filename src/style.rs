@@ -58,6 +58,7 @@ impl Theme {
           visuals: base_style,
           ..Default::default()
       };
+      /*
       for text_style in [
           egui::TextStyle::Body,
           egui::TextStyle::Monospace,
@@ -160,7 +161,7 @@ impl Theme {
       egui_style.visuals.hyperlink_color = default;
   
       egui_style.visuals.image_loading_spinners = false;
-  
+      */
       ctx.set_style(egui_style);
   }
   
