@@ -1,7 +1,11 @@
 use bevy::{
     prelude::*,
-    window::WindowResolution
+    window::WindowResolution,
+    window::PrimaryWindow
 };
+use bevy_flurx_wry::prelude::*;
+
+
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy_egui::{egui, EguiContext, EguiContexts, EguiPlugin};
@@ -25,6 +29,7 @@ fn main() {
                 ..default()
             }),
     )
+    .add_plugins(FlurxWryPlugin::default())
     .add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, initcreate)
     .insert_resource(ClearColor(Color::WHITE));
@@ -45,7 +50,8 @@ pub struct MainCamera;
 
 fn initcreate(
     mut commands: Commands,
-    mut contexts: EguiContexts
+    mut contexts: EguiContexts,
+    window: Query<Entity, With<PrimaryWindow>>,
 ){
     let camera = Camera2dBundle {
         camera: Camera {
@@ -61,7 +67,25 @@ fn initcreate(
             marker: MainCamera,
         }
     );
+    // Converts the `Window` attached the entity into a webview window. 
+    commands.spawn((
+        WryWebViewBundle {
+            uri: WebviewUri::relative_local("1.html"),
+            ..default()
+        },
+        AsChildBundle {
+            parent: ParentWindow(window.single()),
+            bounds: Bounds {
+                position: Vec2::new(300., 100.),
+                size: Vec2::new(500., 500.),
+                min_size: Vec2::new(100., 100.),
+            },
+            ..default()
+        },
+    ));
 
     let ctx = contexts.ctx_mut();
-    style::set_style(ctx, style::Theme::light())
+    style::set_style(ctx, style::Theme::light());
+
+
 }
