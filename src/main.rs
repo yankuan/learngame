@@ -3,8 +3,6 @@ use bevy::{
     window::WindowResolution,
     window::PrimaryWindow
 };
-use bevy_flurx_wry::prelude::*;
-
 
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy::core_pipeline::tonemapping::Tonemapping;
@@ -23,13 +21,13 @@ fn main() {
                 primary_window: Some(Window {
                     #[cfg(target_os = "windows")]
                     position: WindowPosition::Centered(MonitorSelection::Primary), //窗口居中
-                    resolution: WindowResolution::new(1000.0, 600.0),
+                    resolution: WindowResolution::new(1200.0, 800.0),
                     ..default()
                 }),
                 ..default()
             }),
     )
-    .add_plugins(FlurxWryPlugin::default())
+    //.add_plugins(FlurxWryPlugin::default())
     .add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, initcreate)
     .insert_resource(ClearColor(Color::WHITE));
@@ -68,6 +66,7 @@ fn initcreate(
         }
     );
     // Converts the `Window` attached the entity into a webview window. 
+    /*
     commands.spawn((
         WryWebViewBundle {
             uri: WebviewUri::relative_local("1.html"),
@@ -83,6 +82,7 @@ fn initcreate(
             ..default()
         },
     ));
+    */
 
     let ctx = contexts.ctx_mut();
     style::set_style(ctx, style::Theme::light());
