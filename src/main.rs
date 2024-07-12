@@ -82,10 +82,11 @@ fn initcreate(
         player,
         RigidBody::Dynamic,
         GravityScale(0.0),
-        //Collider::circle(16.),
-        Collider::rectangle(32.,32.), 
+        Collider::circle(16.),
+        //Collider::rectangle(32.,32.), 
         SweptCcd::default(),
-        DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))))
+        //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
+        ))
         .insert(Name::from("player")
     );
 
@@ -95,9 +96,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., 0., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -106,9 +108,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., 32., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -118,9 +121,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., -32., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -129,9 +133,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., 64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
     
 
@@ -141,9 +146,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., -64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -151,9 +157,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -162,9 +169,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-160., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
  
     //上边
@@ -173,9 +181,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-128., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -183,9 +192,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-96., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -193,9 +203,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-64., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -203,45 +214,55 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-32., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(0., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(32., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(64., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(96., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -249,9 +270,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(128., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
     
     
@@ -260,9 +282,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(160., 96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     //下边
@@ -271,18 +294,21 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-128., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(-96., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -290,9 +316,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-64., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
   
     commands.spawn((SpriteBundle {
@@ -300,63 +327,77 @@ fn initcreate(
         transform:Transform::from_translation(vec3(-32., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(0., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(32., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+    
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(64., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+    
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(96., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+    
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(128., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
+
+
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(160., -96., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -367,9 +408,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(160., 64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     
@@ -378,9 +420,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(160., 32., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -388,9 +431,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(160., 0., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
   
@@ -407,9 +451,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(160., -64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
 
@@ -421,9 +466,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(192., 0., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -431,9 +477,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(224., 0., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     //延伸下
@@ -442,9 +489,10 @@ fn initcreate(
         transform:Transform::from_translation(vec3(192., -64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
@@ -452,11 +500,34 @@ fn initcreate(
         transform:Transform::from_translation(vec3(224., -64., 0.)),
         ..default()
     },
-    RigidBody::Static,
-    Collider::rectangle(32.,32.), 
-    DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))))
+    //RigidBody::Static,
+    //Collider::rectangle(32.,32.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
     .insert(wall).insert(Name::from("wall"));
 
+
+    //自定义碰撞
+    commands.spawn((
+        RigidBody::Static, 
+        Collider::rectangle(320.0, 32.),
+        TransformBundle::from_transform(Transform::from_xyz(0.0, 96.0, 0.0)),
+    ));
+    commands.spawn((
+        RigidBody::Static, 
+        Collider::rectangle(320.0, 32.),
+        TransformBundle::from_transform(Transform::from_xyz(0.0, -96.0, 0.0)),
+    ));
+    commands.spawn((
+        RigidBody::Static, 
+        Collider::rectangle(32.0, 224.),
+        TransformBundle::from_transform(Transform::from_xyz(160.0, 0.0, 0.0)),
+    ));
+    commands.spawn((
+        RigidBody::Static, 
+        Collider::rectangle(32.0, 224.),
+        TransformBundle::from_transform(Transform::from_xyz(-160.0, 0.0, 0.0)),
+    ));
 
     let ctx = contexts.ctx_mut();
     style::set_style(ctx, style::Theme::light());
@@ -470,7 +541,7 @@ fn draw_example_collection(
     game_camera_query: Query<(&Camera, &GlobalTransform)>,
     mut windows: Query<&mut Window>,
 ) {
-  
+    
     gizmos
         .grid_2d(
             Vec2::ZERO,
@@ -481,6 +552,7 @@ fn draw_example_collection(
             LinearRgba::gray(0.00),
         )
         .outer_edges();
+
 
         if mouse.just_pressed(MouseButton::Left) {
             let mut window = windows.single_mut();
@@ -498,6 +570,7 @@ fn draw_example_collection(
     
             }
         }
+        
  
 }
 
@@ -505,25 +578,25 @@ fn draw_example_collection(
 fn player_about(
     mut commands: Commands,
     keyboard:Res<ButtonInput<KeyCode>>,
-    mut players:Query<(&mut LinearVelocity),(With<player>,Without<wall>)>,
+    mut players:Query<(&mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>)>,
     mut walls:Query<(&mut Transform),(With<wall>,Without<player>)>,
     mut collision_event_reader: EventReader<Collision>,
     delta: Res<Time>,
 ){
     
     //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
-    for (mut linear) in &mut players {
+    for (mut linear,mut ang) in &mut players {
         if keyboard.just_pressed(KeyCode::ArrowLeft) {
-            linear.x = 32.;
+            linear.x = -1. * 5000. * delta.delta_seconds();
         }
         if keyboard.just_pressed(KeyCode::ArrowRight) {
-            linear.x = 32.;
+            linear.x = 1. * 5000. * delta.delta_seconds();
         }
         if keyboard.just_pressed(KeyCode::ArrowUp) {
-            linear.y = 32.;
+            linear.y = 1. * 5000. * delta.delta_seconds();
         }
         if keyboard.just_pressed(KeyCode::ArrowDown) {
-            linear.y = 32.;
+            linear.y = -1. * 5000. * delta.delta_seconds();
         } 
         for Collision(contacts) in collision_event_reader.read() {
 
@@ -531,6 +604,7 @@ fn player_about(
                 
                 linear.y = 0.;
                 linear.x = 0.;
+                ang.0 = 0.;
             }
         }
     }
