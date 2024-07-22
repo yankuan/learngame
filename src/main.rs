@@ -34,7 +34,7 @@ fn main() {
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     .add_plugins(PhysicsDebugPlugin::default())
     .add_plugins(WorldInspectorPlugin::new())
-    .add_systems(Startup, initcreate)
+    .add_systems(Startup, (initcreate,initcreate2))
     .add_systems(Update, (draw_example_collection,player_about))
     .insert_resource(ClearColor(Color::WHITE));
 
@@ -46,9 +46,153 @@ fn main() {
 #[derive(Component)]
 pub struct player;
 
+#[derive(Component)]
+pub struct ball;
 /// Marker component for the main gameplay camera
 #[derive(Component)]
 pub struct wall;
+
+/// Marker component for the main gameplay camera
+#[derive(Component)]
+pub struct brick;
+
+fn initcreate2(   
+    mut commands: Commands,
+    asset_server: Res<AssetServer>
+){
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(0., 76., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(28., 76., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick1"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(-56., 76., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick2"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(56., 76., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick3"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(-28., 76., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick4"));
+
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(0., 68., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick5"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(28., 68., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick6"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(-28., 68., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick7"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(0., 60., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick8"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(28., 60., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick9"));
+
+    commands.spawn((SpriteBundle {
+        texture: asset_server.load("branding/28_brick.png"),
+        transform:Transform::from_translation(vec3(-28., 60., 0.)),
+        ..default()
+    },
+    RigidBody::Static,
+    Collider::rectangle(27.,7.), 
+    //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
+    ))
+    .insert(brick).insert(Name::from("brick10"));
+
+
+}
+
+#[derive(Component, Default, Debug, Clone, Copy, PartialEq, Eq, Reflect, States, Hash)]
+pub enum Ballstatus {
+    #[default]
+    Nomove,
+    Move
+}
+
+
 
 fn initcreate(
     mut commands: Commands,
@@ -58,7 +202,7 @@ fn initcreate(
 ){
     
     let mut projection1 = OrthographicProjection::default();
-    projection1.scale = 0.3;
+    projection1.scale = 0.28;
 
 
     commands.spawn(Camera2dBundle{
@@ -72,19 +216,39 @@ fn initcreate(
     });
     
     //commands.spawn(Camera2dBundle::default());
+    //ball
+    commands.spawn((
+        SpriteBundle {
+            texture: asset_server.load("branding/8ball.png"),
+            transform: Transform::from_translation(Vec3::new(0.,-63., 1.)),
+            ..default()
+        },
+        ball,
+        Ballstatus::Nomove,
+        RigidBody::Dynamic,
+        GravityScale(20.0),
+        Collider::circle(4.),
+        //Collider::rectangle(32.,32.), 
+        SweptCcd::default(),
+        //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
+        ))
+        .insert(Name::from("ball")
+    );
+
 
     //player
     commands.spawn((
         SpriteBundle {
-            texture: asset_server.load("branding/32pink.png"),
+            texture: asset_server.load("branding/10_64player.png"),
+            transform: Transform::from_translation(Vec3::new(0.,-74., 1.)),
             ..default()
         },
         player,
-        RigidBody::Dynamic,
+        RigidBody::Kinematic,
         GravityScale(0.0),
-        Collider::circle(16.),
-        //Collider::rectangle(32.,32.), 
-        SweptCcd::default(),
+        //Collider::circle(16.),
+        Collider::rectangle(64.,11.), 
+        //SweptCcd::default(),
         //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
         ))
         .insert(Name::from("player")
@@ -510,12 +674,13 @@ fn initcreate(
     //自定义碰撞
     commands.spawn((
         RigidBody::Static, 
-        Collider::rectangle(320.0, 32.),
+        Collider::rectangle(286.0, 32.),
         TransformBundle::from_transform(Transform::from_xyz(0.0, 96.0, 0.0)),
     ));
+    
     commands.spawn((
         RigidBody::Static, 
-        Collider::rectangle(320.0, 32.),
+        Collider::rectangle(286.0, 32.),
         TransformBundle::from_transform(Transform::from_xyz(0.0, -96.0, 0.0)),
     ));
     commands.spawn((
@@ -541,7 +706,7 @@ fn draw_example_collection(
     game_camera_query: Query<(&Camera, &GlobalTransform)>,
     mut windows: Query<&mut Window>,
 ) {
-    
+    /* 
     gizmos
         .grid_2d(
             Vec2::ZERO,
@@ -552,7 +717,7 @@ fn draw_example_collection(
             LinearRgba::gray(0.00),
         )
         .outer_edges();
-
+        */
 
         if mouse.just_pressed(MouseButton::Left) {
             let mut window = windows.single_mut();
@@ -578,34 +743,84 @@ fn draw_example_collection(
 fn player_about(
     mut commands: Commands,
     keyboard:Res<ButtonInput<KeyCode>>,
-    mut players:Query<(&mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>)>,
-    mut walls:Query<(&mut Transform),(With<wall>,Without<player>)>,
+    mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
+    mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
+    mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
     mut collision_event_reader: EventReader<Collision>,
+    mut collision_event_reader_start: EventReader<CollisionStarted>,
     delta: Res<Time>,
 ){
-    
-    //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
-    for (mut linear,mut ang) in &mut players {
-        if keyboard.just_pressed(KeyCode::ArrowLeft) {
-            linear.x = -1. * 5000. * delta.delta_seconds();
-        }
-        if keyboard.just_pressed(KeyCode::ArrowRight) {
-            linear.x = 1. * 5000. * delta.delta_seconds();
-        }
-        if keyboard.just_pressed(KeyCode::ArrowUp) {
-            linear.y = 1. * 5000. * delta.delta_seconds();
-        }
-        if keyboard.just_pressed(KeyCode::ArrowDown) {
-            linear.y = -1. * 5000. * delta.delta_seconds();
-        } 
-        for Collision(contacts) in collision_event_reader.read() {
 
-            if contacts.entity1.index() == 9  || contacts.entity1.index() == 9 {
-                
-                linear.y = 0.;
-                linear.x = 0.;
-                ang.0 = 0.;
+    let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta)) = balls.get_single_mut() else { return;};
+    let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
+    for CollisionStarted(entity1, entity2) in collision_event_reader_start.read() {
+        if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
+            //println!("{}",entity1.index());
+            println!("{:?}",*ballsta);
+            if *ballsta == Ballstatus::Move {
+                linear_ball.y = 350.;
+            }
+            //更具player的速度设置y线速度值
+            //println!("{}",linear.x);
+            //
+        }
+
+        for (ent_brick) in bricks.into_iter() {
+            //println!("{}",ent_brick.index());
+            if (entity1.index() == ent_ball.index()  && entity2.index() == ent_brick.index()) || (entity1.index() == ent_brick.index()  && entity2.index() == ent_ball.index())  {
+                commands.entity(ent_brick).despawn();
             }
         }
     }
+    //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
+
+    if keyboard.pressed(KeyCode::ArrowLeft) {
+        linear.x = -1. * 6000. * delta.delta_seconds();
+        //trans.translation.x += -1. * 100. * delta.delta_seconds();
+    }
+    if keyboard.just_released(KeyCode::ArrowLeft) {
+        linear.x = 0.;
+    }
+    if keyboard.pressed(KeyCode::ArrowRight) {
+        linear.x = 1. * 6000. * delta.delta_seconds();
+        //trans.translation.x += 1. * 100. * delta.delta_seconds();  
+    }
+    if keyboard.just_released(KeyCode::ArrowRight) {
+        linear.x = 0.;
+    }
+    
+    if keyboard.pressed(KeyCode::ArrowUp) {
+        //linear.y = 1. * 5000. * delta.delta_seconds();
+        //trans.translation.y += 1. * 100. * delta.delta_seconds();
+        if *ballsta == Ballstatus::Nomove {
+            linear_ball.y = 350.;
+            *ballsta = Ballstatus::Move;
+        }
+    }
+    /*
+    if keyboard.pressed(KeyCode::ArrowDown) {
+        //linear.y = -1. * 5000. * delta.delta_seconds();
+        trans.translation.y += -1. * 100. * delta.delta_seconds();
+    }
+    */
+    if trans.translation.x <= -112. {
+        linear.x = 0.;
+        trans.translation.x = -111.;
+    }
+    if trans.translation.x > 112. {
+        linear.x = 0.;
+        trans.translation.x = 111.;
+    }
+     
+    for Collision(contacts) in collision_event_reader.read() {
+        println!(
+            "Entities {:?} and {:?} are colliding",
+            contacts.entity1,
+            contacts.entity2,
+        );
+    }
+    
+     
+    //判断失败 不以碰撞检测为标志，以ball的Y轴与-96的关系判断
+    //println!("{}",trans_ball.translation.y);
 }    
