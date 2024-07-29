@@ -220,13 +220,13 @@ fn initcreate(
     commands.spawn((
         SpriteBundle {
             texture: asset_server.load("branding/8ball.png"),
-            transform: Transform::from_translation(Vec3::new(0.,-63., 1.)),
+            transform: Transform::from_translation(Vec3::new(0.,-64., 1.)),
             ..default()
         },
         ball,
         Ballstatus::Nomove,
         RigidBody::Dynamic,
-        GravityScale(20.0),
+        GravityScale(0.0),
         Collider::circle(4.),
         //Collider::rectangle(32.,32.), 
         SweptCcd::default(),
@@ -744,21 +744,21 @@ fn player_about(
     mut commands: Commands,
     keyboard:Res<ButtonInput<KeyCode>>,
     mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
-    mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
+    mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
     mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
     mut collision_event_reader: EventReader<Collision>,
     mut collision_event_reader_start: EventReader<CollisionStarted>,
     delta: Res<Time>,
 ){
 
-    let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta)) = balls.get_single_mut() else { return;};
+    let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
     let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
     for CollisionStarted(entity1, entity2) in collision_event_reader_start.read() {
         if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
             //println!("{}",entity1.index());
             println!("{:?}",*ballsta);
             if *ballsta == Ballstatus::Move {
-                linear_ball.y = 350.;
+                linear_ball.y = 350.;   
             }
             //更具player的速度设置y线速度值
             //println!("{}",linear.x);
@@ -794,7 +794,9 @@ fn player_about(
         //trans.translation.y += 1. * 100. * delta.delta_seconds();
         if *ballsta == Ballstatus::Nomove {
             linear_ball.y = 350.;
+            gs.0 = 20.;
             *ballsta = Ballstatus::Move;
+            
         }
     }
     /*
