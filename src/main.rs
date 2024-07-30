@@ -11,7 +11,10 @@ use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 
 
 mod style;
-
+const SCOREBOARD_FONT_SIZE: f32 = 50.0;
+const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
+const TEXT_COLOR: Color = Color::WHITE;
+const SCORE_COLOR: Color = Color::srgb(1.0, 0.5, 0.5);
 
 fn main() {
     let mut app = App::new();
@@ -35,7 +38,8 @@ fn main() {
     .add_plugins(PhysicsDebugPlugin::default())
     .add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, (initcreate,initcreate2))
-    .add_systems(Update, (draw_example_collection,player_about))
+    .add_systems(Update, (draw_example_collection,player_about,update_scoreboard))
+    .insert_resource(Score(0))
     .insert_resource(ClearColor(Color::WHITE));
 
     app.run();
@@ -55,6 +59,14 @@ pub struct wall;
 /// Marker component for the main gameplay camera
 #[derive(Component)]
 pub struct brick;
+
+// This resource tracks the game's score
+#[derive(Resource, Deref, DerefMut)]
+struct Score(usize);
+
+#[derive(Component)]
+struct ScoreboardUi;
+
 
 fn initcreate2(   
     mut commands: Commands,
@@ -183,7 +195,40 @@ fn initcreate2(
     .insert(brick).insert(Name::from("brick10"));
 
 
+    // Scoreboard
+    commands.spawn((
+        ScoreboardUi,
+        TextBundle::from_sections([
+            TextSection::new(
+                "Score: ",
+                TextStyle {
+                    font_size: SCOREBOARD_FONT_SIZE,
+                    color: TEXT_COLOR,
+                    ..default()
+                },
+            ),
+            TextSection::from_style(TextStyle {
+                font_size: SCOREBOARD_FONT_SIZE,
+                color: SCORE_COLOR,
+                ..default()
+            }),
+        ])
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(30.),
+            left: Val::Px(500.),
+            ..default()
+        }),
+    ));
+
+
 }
+
+fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<ScoreboardUi>>) {
+    let mut text = query.single_mut();
+    text.sections[1].value = score.to_string();
+}
+
 
 #[derive(Component, Default, Debug, Clone, Copy, PartialEq, Eq, Reflect, States, Hash)]
 pub enum Ballstatus {
@@ -706,7 +751,7 @@ fn draw_example_collection(
     game_camera_query: Query<(&Camera, &GlobalTransform)>,
     mut windows: Query<&mut Window>,
 ) {
-    /* 
+     
     gizmos
         .grid_2d(
             Vec2::ZERO,
@@ -717,7 +762,7 @@ fn draw_example_collection(
             LinearRgba::gray(0.00),
         )
         .outer_edges();
-        */
+        
 
         if mouse.just_pressed(MouseButton::Left) {
             let mut window = windows.single_mut();
@@ -748,6 +793,7 @@ fn player_about(
     mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
     mut collision_event_reader: EventReader<Collision>,
     mut collision_event_reader_start: EventReader<CollisionStarted>,
+    mut score: ResMut<Score>,
     delta: Res<Time>,
 ){
 
@@ -769,6 +815,7 @@ fn player_about(
             //println!("{}",ent_brick.index());
             if (entity1.index() == ent_ball.index()  && entity2.index() == ent_brick.index()) || (entity1.index() == ent_brick.index()  && entity2.index() == ent_ball.index())  {
                 commands.entity(ent_brick).despawn();
+                **score += 1;
             }
         }
     }
