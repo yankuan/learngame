@@ -818,6 +818,12 @@ fn player_about(
                 **score += 1;
             }
         }
+
+        if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
+            //println!("{}",entity1.index());
+            println!("gameover");
+        }    
+
     }
     //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
 
@@ -835,7 +841,12 @@ fn player_about(
     if keyboard.just_released(KeyCode::ArrowRight) {
         linear.x = 0.;
     }
-    
+
+    if *ballsta == Ballstatus::Nomove {
+        linear_ball.x = linear.x;
+    }
+
+
     if keyboard.pressed(KeyCode::ArrowUp) {
         //linear.y = 1. * 5000. * delta.delta_seconds();
         //trans.translation.y += 1. * 100. * delta.delta_seconds();
