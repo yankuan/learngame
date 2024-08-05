@@ -8,12 +8,16 @@ use bevy_egui::{egui::{self, Label}, EguiContext, EguiContexts, EguiPlugin};
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
+use states::GameState;
 
 mod style;
 mod states;
 mod dev;
 mod screen; //屏幕显示
 mod game; //游戏
+mod death_state;
+mod assets;
+mod ui;
 
 use crate::dev::DebugPlugin;
 
@@ -45,6 +49,9 @@ fn main() {
     .add_plugins(DebugPlugin)
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
+    .add_plugins(death_state::plugin)
+    .add_plugins(assets::plugin)
+    .add_plugins(ui::plugin)
     //.add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, (initcreate,initcreate2))
     .add_systems(Update, (draw_example_collection,player_about,update_scoreboard))
@@ -64,6 +71,9 @@ pub struct ball;
 /// Marker component for the main gameplay camera
 #[derive(Component)]
 pub struct wall;
+
+#[derive(Component)]
+pub struct checkover;
 
 /// Marker component for the main gameplay camera
 #[derive(Component)]
@@ -736,7 +746,9 @@ fn initcreate(
         RigidBody::Static, 
         Collider::rectangle(286.0, 32.),
         TransformBundle::from_transform(Transform::from_xyz(0.0, -96.0, 0.0)),
-    ));
+    )).insert(checkover).insert(Name::from("checkover"));
+
+
     commands.spawn((
         RigidBody::Static, 
         Collider::rectangle(32.0, 224.),
@@ -800,13 +812,16 @@ fn player_about(
     mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
     mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
     mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
+    mut checkovers:Query<(Entity),(With<checkover>)>,
     mut collision_event_reader: EventReader<Collision>,
     mut collision_event_reader_start: EventReader<CollisionStarted>,
     mut score: ResMut<Score>,
+    mut next_state: ResMut<NextState<GameState>>,
     delta: Res<Time>,
 ){
 
     let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
+    //let Ok((ent_checkover)) = checkovers.get_single_mut() else { return;};
     let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
     for CollisionStarted(entity1, entity2) in collision_event_reader_start.read() {
         if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
@@ -828,11 +843,13 @@ fn player_about(
             }
         }
 
-        if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
-            //println!("{}",entity1.index());
-            println!("gameover");
-        }    
-
+        for (ent_checkover) in checkovers.into_iter() {
+            if (entity1.index() == ent_ball.index()  && entity2.index() == ent_checkover.index()) || (entity1.index() == ent_checkover.index()  && entity2.index() == ent_ball.index())  {
+                //println!("{}",entity1.index());
+                println!("gameover");
+                next_state.set(GameState::Death);
+            }
+        }     
     }
     //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
 
