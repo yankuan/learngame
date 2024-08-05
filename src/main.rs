@@ -2,15 +2,21 @@ use bevy::{
     asset::transformer, color::palettes::css::*, core_pipeline::core_2d::graph::input, ecs::label, input::keyboard, log::tracing_subscriber::fmt::writer::BoxMakeWriter, math::{vec2, vec3}, prelude::*, window::{PrimaryWindow, WindowResolution}
 };
  
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+//use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy_egui::{egui::{self, Label}, EguiContext, EguiContexts, EguiPlugin};
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 
-
 mod style;
+mod states;
+mod dev;
+mod screen; //屏幕显示
+mod game; //游戏
+
+use crate::dev::DebugPlugin;
+
 const SCOREBOARD_FONT_SIZE: f32 = 50.0;
 const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
 const TEXT_COLOR: Color = Color::WHITE;
@@ -36,7 +42,10 @@ fn main() {
     .add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     .add_plugins(PhysicsDebugPlugin::default())
-    .add_plugins(WorldInspectorPlugin::new())
+    .add_plugins(DebugPlugin)
+    .add_plugins(screen::plugin)
+    .add_plugins(game::plugin)
+    //.add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, (initcreate,initcreate2))
     .add_systems(Update, (draw_example_collection,player_about,update_scoreboard))
     .insert_resource(Score(0))
