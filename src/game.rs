@@ -10,7 +10,11 @@ pub(super) fn plugin(app: &mut App) {
       app.enable_state_scoped_entities::<GameState>();
       app.add_systems(Update, player_about.run_if(in_state(GameState::Playing)));
       app.add_systems(OnEnter(GameState::Death), player_stop);
+
+
 }
+
+
 
 fn player_stop(
       mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
@@ -122,13 +126,4 @@ fn player_about(
           linear.x = 0.;
           trans.translation.x = 111.;
       }
-       
-      for Collision(contacts) in collision_event_reader.read() {
-          println!(
-              "Entities {:?} and {:?} are colliding",
-              contacts.entity1,
-              contacts.entity2,
-          );
-      }
-      
   }    

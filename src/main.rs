@@ -20,6 +20,7 @@ mod assets;
 mod ui;
 mod componet;
 mod resource;
+mod spawn;
 
 use crate::componet::*;
 use crate::resource::Score;
@@ -49,8 +50,8 @@ fn main() {
                 ..default()
             }),
     )
-    .add_plugins(LogDiagnosticsPlugin::default())
-    .add_plugins(FrameTimeDiagnosticsPlugin::default())
+    //.add_plugins(LogDiagnosticsPlugin::default())
+    //.add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     .add_plugins(PhysicsDebugPlugin::default())
     .add_plugins(DebugPlugin)
@@ -59,6 +60,7 @@ fn main() {
     .add_plugins(death_state::plugin)
     .add_plugins(assets::plugin)
     .add_plugins(ui::plugin)
+    .add_plugins(spawn::plugin)
     //.add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, (initcreate,initcreate2))
     .add_systems(Update, (draw_example_collection,update_scoreboard))
