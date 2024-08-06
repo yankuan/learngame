@@ -18,13 +18,20 @@ mod game; //游戏
 mod death_state;
 mod assets;
 mod ui;
+mod componet;
+mod resource;
+
+use crate::componet::*;
+use crate::resource::Score;
 
 use crate::dev::DebugPlugin;
 
 const SCOREBOARD_FONT_SIZE: f32 = 50.0;
 const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
 const TEXT_COLOR: Color = Color::WHITE;
-const SCORE_COLOR: Color = Color::srgb(1.0, 0.5, 0.5);
+const SCORE_COLOR: Color= Color::srgb(1.0, 0.5, 0.5);
+
+
 
 fn main() {
     let mut app = App::new();
@@ -54,37 +61,12 @@ fn main() {
     .add_plugins(ui::plugin)
     //.add_plugins(WorldInspectorPlugin::new())
     .add_systems(Startup, (initcreate,initcreate2))
-    .add_systems(Update, (draw_example_collection,player_about,update_scoreboard))
+    .add_systems(Update, (draw_example_collection,update_scoreboard))
     .insert_resource(Score(0))
     .insert_resource(ClearColor(Color::WHITE));
 
     app.run();
 }
-
-
-/// Marker component for the main gameplay camera
-#[derive(Component)]
-pub struct player;
-
-#[derive(Component)]
-pub struct ball;
-/// Marker component for the main gameplay camera
-#[derive(Component)]
-pub struct wall;
-
-#[derive(Component)]
-pub struct checkover;
-
-/// Marker component for the main gameplay camera
-#[derive(Component)]
-pub struct brick;
-
-// This resource tracks the game's score
-#[derive(Resource, Deref, DerefMut)]
-struct Score(usize);
-
-#[derive(Component)]
-struct ScoreboardUi;
 
 
 fn initcreate2(   
@@ -247,15 +229,6 @@ fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<Scorebo
     let mut text = query.single_mut();
     text.sections[1].value = score.to_string();
 }
-
-
-#[derive(Component, Default, Debug, Clone, Copy, PartialEq, Eq, Reflect, States, Hash)]
-pub enum Ballstatus {
-    #[default]
-    Nomove,
-    Move
-}
-
 
 
 fn initcreate(
@@ -806,107 +779,3 @@ fn draw_example_collection(
 }
 
 
-fn player_about(
-    mut commands: Commands,
-    keyboard:Res<ButtonInput<KeyCode>>,
-    mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
-    mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
-    mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
-    mut checkovers:Query<(Entity),(With<checkover>)>,
-    mut collision_event_reader: EventReader<Collision>,
-    mut collision_event_reader_start: EventReader<CollisionStarted>,
-    mut score: ResMut<Score>,
-    mut next_state: ResMut<NextState<GameState>>,
-    delta: Res<Time>,
-){
-
-    let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
-    //let Ok((ent_checkover)) = checkovers.get_single_mut() else { return;};
-    let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
-    for CollisionStarted(entity1, entity2) in collision_event_reader_start.read() {
-        if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
-            //println!("{}",entity1.index());
-            println!("{:?}",*ballsta);
-            if *ballsta == Ballstatus::Move {
-                linear_ball.y = 350.;   
-            }
-            //更具player的速度设置y线速度值
-            //println!("{}",linear.x);
-            //
-        }
-
-        for (ent_brick) in bricks.into_iter() {
-            //println!("{}",ent_brick.index());
-            if (entity1.index() == ent_ball.index()  && entity2.index() == ent_brick.index()) || (entity1.index() == ent_brick.index()  && entity2.index() == ent_ball.index())  {
-                commands.entity(ent_brick).despawn();
-                **score += 1;
-            }
-        }
-
-        for (ent_checkover) in checkovers.into_iter() {
-            if (entity1.index() == ent_ball.index()  && entity2.index() == ent_checkover.index()) || (entity1.index() == ent_checkover.index()  && entity2.index() == ent_ball.index())  {
-                //println!("{}",entity1.index());
-                println!("gameover");
-                next_state.set(GameState::Death);
-            }
-        }     
-    }
-    //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
-
-    if keyboard.pressed(KeyCode::ArrowLeft) {
-        linear.x = -1. * 6000. * delta.delta_seconds();
-        //trans.translation.x += -1. * 100. * delta.delta_seconds();
-    }
-    if keyboard.just_released(KeyCode::ArrowLeft) {
-        linear.x = 0.;
-    }
-    if keyboard.pressed(KeyCode::ArrowRight) {
-        linear.x = 1. * 6000. * delta.delta_seconds();
-        //trans.translation.x += 1. * 100. * delta.delta_seconds();  
-    }
-    if keyboard.just_released(KeyCode::ArrowRight) {
-        linear.x = 0.;
-    }
-
-    if *ballsta == Ballstatus::Nomove {
-        linear_ball.x = linear.x;
-    }
-
-
-    if keyboard.pressed(KeyCode::ArrowUp) {
-        //linear.y = 1. * 5000. * delta.delta_seconds();
-        //trans.translation.y += 1. * 100. * delta.delta_seconds();
-        if *ballsta == Ballstatus::Nomove {
-            linear_ball.y = 350.;
-            gs.0 = 20.;
-            *ballsta = Ballstatus::Move;
-            
-        }
-    }
-    /*
-    if keyboard.pressed(KeyCode::ArrowDown) {
-        //linear.y = -1. * 5000. * delta.delta_seconds();
-        trans.translation.y += -1. * 100. * delta.delta_seconds();
-    }
-    */
-    if trans.translation.x <= -112. {
-        linear.x = 0.;
-        trans.translation.x = -111.;
-    }
-    if trans.translation.x > 112. {
-        linear.x = 0.;
-        trans.translation.x = 111.;
-    }
-     
-    for Collision(contacts) in collision_event_reader.read() {
-        println!(
-            "Entities {:?} and {:?} are colliding",
-            contacts.entity1,
-            contacts.entity2,
-        );
-    }
-    
-     
-    //判断失败 不以碰撞检测为标志，以ball的Y轴与-96的关系判断
-    //println!("{}",trans_ball.translation.y);
-}    

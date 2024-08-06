@@ -62,12 +62,14 @@ fn init_ui(
                             },
                             ..default()
                         },
-                    ))
+                    ));
+                    /*
                     .with_children(|cmd| {
                         let font_size = window.height() / 35.;
                         cmd.button(font_size, "R for Respawn");
                         cmd.button(font_size, "Menu");
                     });
+                    */
                 });
         }
 

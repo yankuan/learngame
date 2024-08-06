@@ -1,0 +1,6 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "/learngame/Cargo.toml",
+        //".\\flappy_bird_bevy\\Cargo.toml",
+    ]
+}
