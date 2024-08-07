@@ -12,6 +12,7 @@ bevy-inspector-egui = "0.25.0"
 #bevy_flurx_wry = "0.1.0-alpha1"
 #bevy_rapier2d = { version = "*", features = [ "simd-stable", "debug-render-2d" ] }
 avian2d = "0.1.1"
+rand = "0.8.5"
 
 [dependencies.bevy]
 version = "0.14.0"

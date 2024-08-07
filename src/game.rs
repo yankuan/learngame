@@ -10,7 +10,7 @@ pub(super) fn plugin(app: &mut App) {
       app.enable_state_scoped_entities::<GameState>();
       app.add_systems(Update, player_about.run_if(in_state(GameState::Playing)));
       app.add_systems(OnEnter(GameState::Death), player_stop);
-
+      app.add_systems(OnEnter(GameState::Victory), player_stop);
 
 }
 
@@ -65,6 +65,9 @@ fn player_about(
               if (entity1.index() == ent_ball.index()  && entity2.index() == ent_brick.index()) || (entity1.index() == ent_brick.index()  && entity2.index() == ent_ball.index())  {
                   commands.entity(ent_brick).despawn();
                   **score += 1;
+                  if (**score == 11) {
+                      next_state.set(GameState::Victory);
+                  }
               }
           }
   

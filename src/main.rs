@@ -16,6 +16,7 @@ mod dev;
 mod screen; //屏幕显示
 mod game; //游戏
 mod death_state;
+mod victory;
 mod assets;
 mod ui;
 mod componet;
@@ -58,6 +59,7 @@ fn main() {
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
     .add_plugins(death_state::plugin)
+    .add_plugins(victory::plugin)
     .add_plugins(assets::plugin)
     .add_plugins(ui::plugin)
     .add_plugins(spawn::plugin)
