@@ -54,8 +54,8 @@ fn main() {
     //.add_plugins(LogDiagnosticsPlugin::default())
     //.add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
-    .add_plugins(PhysicsDebugPlugin::default())
-    .add_plugins(DebugPlugin)
+    //.add_plugins(PhysicsDebugPlugin::default())
+    //.add_plugins(DebugPlugin)
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
     .add_plugins(death_state::plugin)
@@ -237,7 +237,7 @@ fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<Scorebo
 
 fn initcreate(
     mut commands: Commands,
-    mut contexts: EguiContexts,
+    //mut contexts: EguiContexts,
     asset_server: Res<AssetServer>,
     window: Query<Entity, With<PrimaryWindow>>,
 ){
@@ -644,13 +644,13 @@ fn initcreate(
 
   
     //缺口
-    /*
+    
     commands.spawn(SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(160., -32., 0.)),
         ..default()
     });
-     */
+     
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
         transform:Transform::from_translation(vec3(160., -64., 0.)),
@@ -737,8 +737,8 @@ fn initcreate(
         TransformBundle::from_transform(Transform::from_xyz(-160.0, 0.0, 0.0)),
     ));
 
-    let ctx = contexts.ctx_mut();
-    style::set_style(ctx, style::Theme::light());
+    //let ctx = contexts.ctx_mut();
+    //style::set_style(ctx, style::Theme::light());
 
 }
 
@@ -749,7 +749,7 @@ fn draw_example_collection(
     game_camera_query: Query<(&Camera, &GlobalTransform)>,
     mut windows: Query<&mut Window>,
 ) {
-     
+     /*
     gizmos
         .grid_2d(
             Vec2::ZERO,
@@ -760,7 +760,7 @@ fn draw_example_collection(
             LinearRgba::gray(0.00),
         )
         .outer_edges();
-        
+         */
 
         if mouse.just_pressed(MouseButton::Left) {
             let mut window = windows.single_mut();
