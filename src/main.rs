@@ -22,16 +22,25 @@ mod ui;
 mod componet;
 mod resource;
 mod spawn;
+mod background;
+mod macros;
+mod manager;
+mod consts;
+mod math;
+mod mat;
 
 use crate::componet::*;
 use crate::resource::Score;
+use crate::background::BackgroundKind;
 
 use crate::dev::DebugPlugin;
+use crate::macros::*;
 
 const SCOREBOARD_FONT_SIZE: f32 = 50.0;
 const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
 const TEXT_COLOR: Color = Color::WHITE;
-const SCORE_COLOR: Color= Color::srgb(1.0, 0.5, 0.5);
+//const SCORE_COLOR: Color= Color::srgb(1.0, 0.5, 0.5);
+const SCORE_COLOR: Color = Color::WHITE;
 
 
 
@@ -55,7 +64,7 @@ fn main() {
     //.add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     //.add_plugins(PhysicsDebugPlugin::default())
-    //.add_plugins(DebugPlugin)
+    .add_plugins(DebugPlugin)
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
     .add_plugins(death_state::plugin)
@@ -63,13 +72,19 @@ fn main() {
     .add_plugins(assets::plugin)
     .add_plugins(ui::plugin)
     .add_plugins(spawn::plugin)
-    //.add_plugins(WorldInspectorPlugin::new())
-    .add_systems(Startup, (initcreate,initcreate2))
+    .add_systems(Startup, (initcreate,initcreate2,initcreate3))
     .add_systems(Update, (draw_example_collection,update_scoreboard))
     .insert_resource(Score(0))
-    .insert_resource(ClearColor(Color::WHITE));
+    .insert_resource(ClearColor(Color::srgb(0.678, 0.847, 0.902)));
 
     app.run();
+}
+
+
+fn initcreate3(
+    mut commands: Commands,
+){
+    BackgroundKind::SkyOnly.spawn(default(), &mut commands);
 }
 
 
@@ -79,7 +94,7 @@ fn initcreate2(
 ){
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(0., 76., 0.)),
+        transform:Transform::from_translation(vec3(0., 76., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -90,7 +105,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(28., 76., 0.)),
+        transform:Transform::from_translation(vec3(28., 76., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -101,7 +116,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(-56., 76., 0.)),
+        transform:Transform::from_translation(vec3(-56., 76., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -112,7 +127,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(56., 76., 0.)),
+        transform:Transform::from_translation(vec3(56., 76., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -123,7 +138,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(-28., 76., 0.)),
+        transform:Transform::from_translation(vec3(-28., 76., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -135,7 +150,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(0., 68., 0.)),
+        transform:Transform::from_translation(vec3(0., 68., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -146,7 +161,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(28., 68., 0.)),
+        transform:Transform::from_translation(vec3(28., 68., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -157,7 +172,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(-28., 68., 0.)),
+        transform:Transform::from_translation(vec3(-28., 68., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -168,7 +183,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(0., 60., 0.)),
+        transform:Transform::from_translation(vec3(0., 60., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -179,7 +194,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(28., 60., 0.)),
+        transform:Transform::from_translation(vec3(28., 60., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -190,7 +205,7 @@ fn initcreate2(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/28_brick.png"),
-        transform:Transform::from_translation(vec3(-28., 60., 0.)),
+        transform:Transform::from_translation(vec3(-28., 60., 10.)),
         ..default()
     },
     RigidBody::Static,
@@ -220,7 +235,7 @@ fn initcreate2(
         ])
         .with_style(Style {
             position_type: PositionType::Absolute,
-            top: Val::Px(30.),
+            top: Val::Px(43.),
             left: Val::Px(500.),
             ..default()
         }),
@@ -237,7 +252,7 @@ fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<Scorebo
 
 fn initcreate(
     mut commands: Commands,
-    //mut contexts: EguiContexts,
+    mut contexts: EguiContexts,
     asset_server: Res<AssetServer>,
     window: Query<Entity, With<PrimaryWindow>>,
 ){
@@ -251,7 +266,7 @@ fn initcreate(
             hdr: true,
             ..default()
         },
-        transform: Transform::from_translation(Vec3::new(0.,0., 9.)),
+        transform: Transform::from_translation(Vec3::new(0.,0., 99.)),
         projection:projection1,
         ..default()
     });
@@ -260,15 +275,20 @@ fn initcreate(
     //ball
     commands.spawn((
         SpriteBundle {
-            texture: asset_server.load("branding/8ball.png"),
-            transform: Transform::from_translation(Vec3::new(0.,-64., 1.)),
+            texture: asset_server.load("branding/32ball.png"),
+            //transform: Transform::from_translation(Vec3::new(0.,-64., 10.)),
+            transform:Transform { 
+                translation: Vec3::new(0.,-64., 10.),
+                scale:Vec3::new(0.25,0.25, 1.),
+                ..default()
+            },
             ..default()
         },
         ball,
         Ballstatus::Nomove,
         RigidBody::Dynamic,
         GravityScale(0.0),
-        Collider::circle(4.),
+        Collider::circle(16.),
         //Collider::rectangle(32.,32.), 
         SweptCcd::default(),
         //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
@@ -281,7 +301,7 @@ fn initcreate(
     commands.spawn((
         SpriteBundle {
             texture: asset_server.load("branding/10_64player.png"),
-            transform: Transform::from_translation(Vec3::new(0.,-74., 1.)),
+            transform: Transform::from_translation(Vec3::new(0.,-74., 10.)),
             ..default()
         },
         player,
@@ -297,8 +317,8 @@ fn initcreate(
 
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., 0., 0.)),
+        texture: asset_server.load("branding/32base.png"),
+        transform:Transform::from_translation(vec3(-160., 0., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -309,8 +329,8 @@ fn initcreate(
 
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., 32., 0.)),
+        texture: asset_server.load("branding/32base.png"),
+        transform:Transform::from_translation(vec3(-160., 32., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -322,8 +342,8 @@ fn initcreate(
 
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., -32., 0.)),
+        texture: asset_server.load("branding/32base.png"),
+        transform:Transform::from_translation(vec3(-160., -32., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -334,8 +354,8 @@ fn initcreate(
 
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., 64., 0.)),
+        texture: asset_server.load("branding/32base.png"),
+        transform:Transform::from_translation(vec3(-160., 64., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -347,8 +367,8 @@ fn initcreate(
 
     
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., -64., 0.)),
+        texture: asset_server.load("branding/32base.png"),
+        transform:Transform::from_translation(vec3(-160., -64., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -358,8 +378,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(-160., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -371,7 +391,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-160., -96., 0.)),
+        transform:Transform::from_translation(vec3(-160., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -382,8 +402,8 @@ fn initcreate(
  
     //上边
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-128., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(-128., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -393,8 +413,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-96., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(-96., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -404,8 +424,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-64., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(-64., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -415,8 +435,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-32., 96., 0.)),
+        texture: asset_server.load("branding/32top1.png"),
+        transform:Transform::from_translation(vec3(-32., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -426,8 +446,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(0., 96., 0.)),
+        texture: asset_server.load("branding/32top2.png"),
+        transform:Transform::from_translation(vec3(0., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -437,8 +457,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(32., 96., 0.)),
+        texture: asset_server.load("branding/32top3.png"),
+        transform:Transform::from_translation(vec3(32., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -448,8 +468,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(64., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(64., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -460,8 +480,8 @@ fn initcreate(
 
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(96., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(96., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -471,8 +491,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(128., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(128., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -483,8 +503,8 @@ fn initcreate(
     
     
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., 96., 0.)),
+        texture: asset_server.load("branding/32top.png"),
+        transform:Transform::from_translation(vec3(160., 96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -496,7 +516,7 @@ fn initcreate(
     //下边
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-128., -96., 0.)),
+        transform:Transform::from_translation(vec3(-128., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -507,7 +527,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-96., -96., 0.)),
+        transform:Transform::from_translation(vec3(-96., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -518,7 +538,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-64., -96., 0.)),
+        transform:Transform::from_translation(vec3(-64., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -529,7 +549,7 @@ fn initcreate(
   
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(-32., -96., 0.)),
+        transform:Transform::from_translation(vec3(-32., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -540,7 +560,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(0., -96., 0.)),
+        transform:Transform::from_translation(vec3(0., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -551,7 +571,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(32., -96., 0.)),
+        transform:Transform::from_translation(vec3(32., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -562,7 +582,7 @@ fn initcreate(
     
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(64., -96., 0.)),
+        transform:Transform::from_translation(vec3(64., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -573,7 +593,7 @@ fn initcreate(
     
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(96., -96., 0.)),
+        transform:Transform::from_translation(vec3(96., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -584,7 +604,7 @@ fn initcreate(
     
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(128., -96., 0.)),
+        transform:Transform::from_translation(vec3(128., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -596,7 +616,7 @@ fn initcreate(
 
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., -96., 0.)),
+        transform:Transform::from_translation(vec3(160., -96., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -609,8 +629,8 @@ fn initcreate(
 
     //右边
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., 64., 0.)),
+        texture: asset_server.load("branding/32right.png"),
+        transform:Transform::from_translation(vec3(160., 64., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -621,8 +641,8 @@ fn initcreate(
 
     
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., 32., 0.)),
+        texture: asset_server.load("branding/32right.png"),
+        transform:Transform::from_translation(vec3(160., 32., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -632,8 +652,8 @@ fn initcreate(
     .insert(wall).insert(Name::from("wall"));
 
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., 0., 0.)),
+        texture: asset_server.load("branding/32right.png"),
+        transform:Transform::from_translation(vec3(160., 0., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -642,18 +662,14 @@ fn initcreate(
     ))
     .insert(wall).insert(Name::from("wall"));
 
-  
-    //缺口
-    
     commands.spawn(SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., -32., 0.)),
+        texture: asset_server.load("branding/32right.png"),
+        transform:Transform::from_translation(vec3(160., -32., 10.)),
         ..default()
     });
-     
     commands.spawn((SpriteBundle {
-        texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(160., -64., 0.)),
+        texture: asset_server.load("branding/32right.png"),
+        transform:Transform::from_translation(vec3(160., -64., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -668,7 +684,7 @@ fn initcreate(
     //延伸上
     commands.spawn((SpriteBundle {
         texture: asset_server.load("branding/32blank.png"),
-        transform:Transform::from_translation(vec3(192., 0., 0.)),
+        transform:Transform::from_translation(vec3(192., 0., 10.)),
         ..default()
     },
     //RigidBody::Static,
@@ -737,8 +753,8 @@ fn initcreate(
         TransformBundle::from_transform(Transform::from_xyz(-160.0, 0.0, 0.0)),
     ));
 
-    //let ctx = contexts.ctx_mut();
-    //style::set_style(ctx, style::Theme::light());
+    let ctx = contexts.ctx_mut();
+    style::set_style(ctx, style::Theme::light());
 
 }
 
@@ -749,7 +765,8 @@ fn draw_example_collection(
     game_camera_query: Query<(&Camera, &GlobalTransform)>,
     mut windows: Query<&mut Window>,
 ) {
-     /*
+
+    /* 
     gizmos
         .grid_2d(
             Vec2::ZERO,
@@ -760,7 +777,7 @@ fn draw_example_collection(
             LinearRgba::gray(0.00),
         )
         .outer_edges();
-         */
+        */
 
         if mouse.just_pressed(MouseButton::Left) {
             let mut window = windows.single_mut();

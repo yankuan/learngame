@@ -1,9 +1,61 @@
 use bevy::prelude::*;
+
 use crate::states::GameState;
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
+use bevy::render::{
+    render_resource::{
+        Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
+    },
+    texture::BevyDefault,
+    view::RenderLayers,
+};
+use bevy::sprite::Material2dPlugin;
 
 use crate::componet::*;
 use crate::resource::*;
+use crate::manager;
+use crate::mat::AnimationMaterial;
+
+pub trait CameraLayer {
+    const RENDER_LAYER: usize;
+
+    fn layer() -> usize {
+        Self::RENDER_LAYER
+    }
+
+    fn render_layers() -> RenderLayers {
+        RenderLayers::from_layers(&[Self::RENDER_LAYER])
+    }
+}
+
+#[derive(Component, Debug, Reflect, Default)]
+pub struct BgSpriteCamera;
+impl CameraLayer for BgSpriteCamera {
+    const RENDER_LAYER: usize = 1;
+}
+
+
+#[derive(Component, Debug, Reflect, Default)]
+pub struct SpriteCamera;
+impl CameraLayer for SpriteCamera {
+    const RENDER_LAYER: usize = 3;
+}
+#[derive(Resource, Debug, Copy, Clone, PartialEq)]
+  pub enum BulletTime {
+      Inactive,
+      Active,
+      Custom(f32),
+  }
+  impl BulletTime {
+      pub fn factor(&self) -> f32 {
+          match self {
+              Self::Inactive => 1.0,
+              Self::Active => 0.1,
+              Self::Custom(val) => *val,
+          }
+      }
+  }
+
 
 pub(super) fn plugin(app: &mut App) {
       app.add_sub_state::<GameState>();
@@ -12,6 +64,9 @@ pub(super) fn plugin(app: &mut App) {
       app.add_systems(OnEnter(GameState::Death), player_stop);
       app.add_systems(OnEnter(GameState::Victory), player_stop);
 
+      app.add_plugins(Material2dPlugin::<AnimationMaterial>::default());
+      app.insert_resource(BulletTime::Inactive);
+      manager::register_manager(app);    
 }
 
 
@@ -51,7 +106,7 @@ fn player_about(
       for CollisionStarted(entity1, entity2) in collision_event_reader_start.read() {
           if (entity1.index() == ent_ball.index()  && entity2.index() == ent_player.index()) || (entity1.index() == ent_player.index()  && entity2.index() == ent_ball.index())  {
               //println!("{}",entity1.index());
-              println!("{:?}",*ballsta);
+              //println!("{:?}",*ballsta);
               if *ballsta == Ballstatus::Move {
                   linear_ball.y = 350.;   
               }
@@ -86,14 +141,14 @@ fn player_about(
       //let (mut trans,mut linear) =  players.get_single_mut().expect("没有获取player实体");
   
       if keyboard.pressed(KeyCode::ArrowLeft) {
-          linear.x = -1. * 6000. * delta.delta_seconds();
+          linear.x = -1. * 10000. * delta.delta_seconds();
           //trans.translation.x += -1. * 100. * delta.delta_seconds();
       }
       if keyboard.just_released(KeyCode::ArrowLeft) {
           linear.x = 0.;
       }
       if keyboard.pressed(KeyCode::ArrowRight) {
-          linear.x = 1. * 6000. * delta.delta_seconds();
+          linear.x = 1. * 10000. * delta.delta_seconds();
           //trans.translation.x += 1. * 100. * delta.delta_seconds();  
       }
       if keyboard.just_released(KeyCode::ArrowRight) {

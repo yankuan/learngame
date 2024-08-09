@@ -30,7 +30,7 @@ fn on_respawn(
       mut cmd: Commands,
 ) {
       //cmd.trigger(Despawn);
-      cmd.trigger(SpawnPlayer(Vec3::new(0.,-74., 1.)));
+      cmd.trigger(SpawnPlayer(Vec3::new(0.,-74., 10.)));
 }
 
 fn on_spawn_player(

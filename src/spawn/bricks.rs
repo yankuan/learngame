@@ -57,7 +57,7 @@ fn on_spawn_bricks(
      
       commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 76., 0.)),
+            transform:Transform::from_translation(vec3(0., 76., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -68,7 +68,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 76., 0.)),
+            transform:Transform::from_translation(vec3(28., 76., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -79,7 +79,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-56., 76., 0.)),
+            transform:Transform::from_translation(vec3(-56., 76., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -90,7 +90,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(56., 76., 0.)),
+            transform:Transform::from_translation(vec3(56., 76., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -101,7 +101,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 76., 0.)),
+            transform:Transform::from_translation(vec3(-28., 76., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -113,7 +113,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 68., 0.)),
+            transform:Transform::from_translation(vec3(0., 68., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -124,7 +124,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 68., 0.)),
+            transform:Transform::from_translation(vec3(28., 68., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -135,7 +135,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 68., 0.)),
+            transform:Transform::from_translation(vec3(-28., 68., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -146,7 +146,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 60., 0.)),
+            transform:Transform::from_translation(vec3(0., 60., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -157,7 +157,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 60., 0.)),
+            transform:Transform::from_translation(vec3(28., 60., 10.)),
             ..default()
         },
         RigidBody::Static,
@@ -168,7 +168,7 @@ fn on_spawn_bricks(
     
         commands.spawn((SpriteBundle {
             texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 60., 0.)),
+            transform:Transform::from_translation(vec3(-28., 60., 10.)),
             ..default()
         },
         RigidBody::Static,

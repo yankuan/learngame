@@ -30,7 +30,7 @@ fn on_respawn(
       mut cmd: Commands,
 ) {
       //cmd.trigger(Despawn);
-      cmd.trigger(SpawnBall(Vec3::new(0.,-64., 1.)));
+      cmd.trigger(SpawnBall(Vec3::new(0.,-64., 10.)));
 }
 
 fn on_spawn_ball(
