@@ -4,15 +4,13 @@ use bevy::{
  
 //use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy::core_pipeline::tonemapping::Tonemapping;
-use bevy_egui::{egui::{self, Label}, EguiContext, EguiContexts, EguiPlugin};
+
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 use states::GameState;
 
-mod style;
 mod states;
-mod dev;
 mod screen; //屏幕显示
 mod game; //游戏
 mod death_state;
@@ -28,13 +26,22 @@ mod manager;
 mod consts;
 mod math;
 mod mat;
+mod game_time;
+mod dev;
+
 
 use crate::componet::*;
 use crate::resource::Score;
 use crate::background::BackgroundKind;
+use crate::dev::dev::*;
 
-use crate::dev::DebugPlugin;
+
 use crate::macros::*;
+use crate::{
+    assets::{FontKey, HandleMap}
+};
+
+
 
 const SCOREBOARD_FONT_SIZE: f32 = 50.0;
 const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
@@ -64,7 +71,7 @@ fn main() {
     //.add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     //.add_plugins(PhysicsDebugPlugin::default())
-    .add_plugins(DebugPlugin)
+    //.add_plugins(DebugPlugin)
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
     .add_plugins(death_state::plugin)
@@ -72,6 +79,7 @@ fn main() {
     .add_plugins(assets::plugin)
     .add_plugins(ui::plugin)
     .add_plugins(spawn::plugin)
+    .add_plugins(game_time::plugin)
     .add_systems(Startup, (initcreate,initcreate2,initcreate3))
     .add_systems(Update, (draw_example_collection,update_scoreboard))
     .insert_resource(Score(0))
@@ -90,6 +98,7 @@ fn initcreate3(
 
 fn initcreate2(   
     mut commands: Commands,
+    font_handles: Res<HandleMap<FontKey>>,
     asset_server: Res<AssetServer>
 ){
     commands.spawn((SpriteBundle {
@@ -240,6 +249,28 @@ fn initcreate2(
             ..default()
         }),
     ));
+    //计时器
+    commands.spawn((
+        GameTimeText,
+        TextBundle {
+            text: Text::from_section(
+                "0:00.00",
+                TextStyle {
+                    font: font_handles[&FontKey::GeoFont].clone_weak(),
+                    font_size: SCOREBOARD_FONT_SIZE,
+                    color: Color::from(WHITE_SMOKE),
+                },
+            ),
+            style: Style {
+                width: Val::Px(10.),
+                position_type: PositionType::Absolute,
+                top: Val::Px(730.),
+                left: Val::Px(500.),
+                ..default()
+            },
+            ..default()
+        },
+    ));
 
 
 }
@@ -252,7 +283,7 @@ fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<Scorebo
 
 fn initcreate(
     mut commands: Commands,
-    mut contexts: EguiContexts,
+ 
     asset_server: Res<AssetServer>,
     window: Query<Entity, With<PrimaryWindow>>,
 ){
@@ -753,8 +784,7 @@ fn initcreate(
         TransformBundle::from_transform(Transform::from_xyz(-160.0, 0.0, 0.0)),
     ));
 
-    let ctx = contexts.ctx_mut();
-    style::set_style(ctx, style::Theme::light());
+
 
 }
 

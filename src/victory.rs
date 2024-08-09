@@ -6,12 +6,12 @@ use bevy::{
   
   use super::{
       assets::{FontKey, HandleMap},
-      //game_time::GameTime,
+      game_time::GameTime,
       //ui::format_game_time,
       GameState,
   };
 
-use crate::spawn::player::Respawn;
+use crate::{game::format_game_time, spawn::player::Respawn};
 use crate::spawn::ball::Respawnball;
 use crate::spawn::bricks::Respawnbricks;
 
@@ -83,7 +83,7 @@ use crate::spawn::bricks::Respawnbricks;
       font_handles: Res<HandleMap<FontKey>>,
       q_window: Query<&Window, With<PrimaryWindow>>,
       //lost_limbs: Res<LostLimbs>,
-      //game_time: Res<GameTime>,
+      game_time: Res<GameTime>,
   ) {
       //let mut rng = thread_rng();
       for window in &q_window {
@@ -107,7 +107,7 @@ use crate::spawn::bricks::Respawnbricks;
                           ..default()
                       },
                   ));
-                  /* 
+                  
                   cmd.spawn((
                       TimeSection,
                       TextBundle {
@@ -132,7 +132,6 @@ use crate::spawn::bricks::Respawnbricks;
                           ..default()
                       },
                   ));
-                  */
                   cmd.spawn((
                       CommentsSection,
                       NodeBundle {

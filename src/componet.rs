@@ -27,4 +27,7 @@ pub enum Ballstatus {
     Move
 }
 
+#[derive(Debug, Component)]
+pub struct GameTimeText;
+
 

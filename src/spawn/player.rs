@@ -3,10 +3,12 @@ use bevy::{
       math::{vec2, vec3},
       prelude::*,
 };
+use std::time::Duration;
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 
 use crate::{resource::Score, states::*};
 use crate::componet::*;
+use crate::game_time::GameTime;
 
 
 pub(super) fn plugin(app: &mut App) {
@@ -37,10 +39,14 @@ fn on_spawn_player(
       trigger: Trigger<SpawnPlayer>,
       mut cmd: Commands,
       mut score: ResMut<Score>,
+      mut next_state: ResMut<NextState<GameState>>,
+      mut game_time: ResMut<GameTime>,
       mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
 ) {
       let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
       trans.translation = trigger.event().0;
       **score = 0;
-      //println!("{}",trigger.event().0);  
+      game_time.0 = Duration::ZERO;
+      next_state.set(GameState::Wait);
+      //println!("{}"u,trigger.event().0);  
 }

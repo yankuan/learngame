@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-
+use std::time::Duration;
 use crate::states::GameState;
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 use bevy::render::{
@@ -10,6 +10,7 @@ use bevy::render::{
     view::RenderLayers,
 };
 use bevy::sprite::Material2dPlugin;
+use crate::game_time::GameTime;
 
 use crate::componet::*;
 use crate::resource::*;
@@ -60,7 +61,8 @@ impl CameraLayer for SpriteCamera {
 pub(super) fn plugin(app: &mut App) {
       app.add_sub_state::<GameState>();
       app.enable_state_scoped_entities::<GameState>();
-      app.add_systems(Update, player_about.run_if(in_state(GameState::Playing)));
+      app.add_systems(Update, (player_about).run_if(in_state(GameState::Wait)));
+      app.add_systems(Update, (player_about,update_game_time).run_if(in_state(GameState::Playing)));
       app.add_systems(OnEnter(GameState::Death), player_stop);
       app.add_systems(OnEnter(GameState::Victory), player_stop);
 
@@ -69,6 +71,20 @@ pub(super) fn plugin(app: &mut App) {
       manager::register_manager(app);    
 }
 
+fn update_game_time(
+    mut q_game_time_text: Query<&mut Text, With<GameTimeText>>,
+    game_time: Res<GameTime>,
+) {
+    for mut text in &mut q_game_time_text {
+        text.sections[0].value = format_game_time(game_time.0);
+    }
+}
+pub fn format_game_time(duration: Duration) -> String {
+    let minutes = duration.as_secs() / 60;
+    let seconds = duration.as_secs() % 60;
+    let millis = duration.subsec_millis();
+    format!("{:0}:{:02}.{:02}", minutes, seconds, millis / 10)
+}
 
 
 fn player_stop(
@@ -167,6 +183,7 @@ fn player_about(
               linear_ball.y = 350.;
               gs.0 = 20.;
               *ballsta = Ballstatus::Move;
+              next_state.set(GameState::Playing);
               
           }
       }

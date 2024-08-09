@@ -16,6 +16,7 @@ pub enum Screen {
 #[source(Screen = Screen::Playing)]
 pub enum GameState {
     #[default]
+    Wait,
     Playing,
     Victory,
     Death,
