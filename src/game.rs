@@ -16,6 +16,8 @@ use crate::componet::*;
 use crate::resource::*;
 use crate::manager;
 use crate::mat::AnimationMaterial;
+use crate::manager::*;
+
 
 pub trait CameraLayer {
     const RENDER_LAYER: usize;
@@ -108,7 +110,7 @@ fn player_about(
       keyboard:Res<ButtonInput<KeyCode>>,
       mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
       mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
-      mut bricks:Query<(Entity),(With<brick>,Without<player>)>,
+      mut bricks:Query<(Entity, &mut MultiAnimationManager),(With<brick>,Without<player>)>,
       mut checkovers:Query<(Entity),(With<checkover>)>,
       mut collision_event_reader: EventReader<Collision>,
       mut collision_event_reader_start: EventReader<CollisionStarted>,
@@ -131,14 +133,17 @@ fn player_about(
               //
           }
   
-          for (ent_brick) in bricks.into_iter() {
+          for (ent_brick,mut ma) in bricks.iter_mut() {
               //println!("{}",ent_brick.index());
               if (entity1.index() == ent_ball.index()  && entity2.index() == ent_brick.index()) || (entity1.index() == ent_brick.index()  && entity2.index() == ent_ball.index())  {
-                  commands.entity(ent_brick).despawn();
+                  //
                   **score += 1;
                   if (**score == 11) {
                       next_state.set(GameState::Victory);
                   }
+                  ma.manager_mut("core").reset_key_with_points("death", &mut commands);
+                  //mul.manager_mut("core").reset_key_with_points("death", &mut commands);
+                  //commands.entity(ent_brick).despawn_descendants();
               }
           }
   

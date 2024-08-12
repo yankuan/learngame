@@ -7,6 +7,9 @@ use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
 
 use crate::{resource::Score, states::*};
 use crate::componet::*;
+use crate::manager::*;
+use crate::macros::*;
+
 
 
 pub(super) fn plugin(app: &mut App) {
@@ -48,6 +51,38 @@ fn on_respawn(
       //
 }
 
+
+fn spawn_sprite(commands: &mut Commands, asset_server: &AssetServer, position: Vec3, name: &str) {  
+    commands.spawn((  
+        SpriteBundle {  
+            //texture: asset_server.load("branding/28_brick.png"),  
+            transform: Transform::from_translation(position),  
+            ..default()  
+        },  
+        RigidBody::Static,  
+        multi!([(  
+            "core",  
+            anim_man!({  
+                stable: {  
+                    path: "branding/28_brick.png",  
+                    size: (28, 8),  
+                },  
+                death: {  
+                    path: "branding/28_brick_death.png",  
+                    size: (28, 8),  
+                    length: 4,  
+                    fps: 16.0,  
+                    next: "despawn",
+                },
+            })  
+        )]),  
+        Collider::rectangle(27., 7.),  
+    ))  
+    .insert(brick)  
+    .insert(Name::from(name));  
+}  
+
+
 fn on_spawn_bricks(
       trigger: Trigger<Spawnbricks>,
       mut commands: Commands,
@@ -55,125 +90,19 @@ fn on_spawn_bricks(
       //mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
 ) {
      
-      commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 76., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 76., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick1"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-56., 76., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick2"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(56., 76., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick3"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 76., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick4"));
+    spawn_sprite(&mut commands, &asset_server, vec3(0., 76., 10.), "brick");  
+    spawn_sprite(&mut commands, &asset_server, vec3(28., 76., 10.), "brick1");  
+    spawn_sprite(&mut commands, &asset_server, vec3(56., 76., 10.), "brick3");  
+    spawn_sprite(&mut commands, &asset_server, vec3(-56., 76., 10.), "brick4");  
+    spawn_sprite(&mut commands, &asset_server, vec3(-28., 76., 10.), "brick5");  
+    spawn_sprite(&mut commands, &asset_server, vec3(0., 68., 10.), "brick6");  
+    spawn_sprite(&mut commands, &asset_server, vec3(-28., 68., 10.), "brick11");  
+    spawn_sprite(&mut commands, &asset_server, vec3(28., 68., 10.), "brick7"); 
+
+    spawn_sprite(&mut commands, &asset_server, vec3(0., 60., 10.), "brick8");  
     
     
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 68., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick5"));
+    spawn_sprite(&mut commands, &asset_server, vec3(28., 60., 10.), "brick9");  
+    spawn_sprite(&mut commands, &asset_server, vec3(-28., 60., 10.), "brick10");  
     
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 68., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick6"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 68., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick7"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(0., 60., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick8"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(28., 60., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick9"));
-    
-        commands.spawn((SpriteBundle {
-            texture: asset_server.load("branding/28_brick.png"),
-            transform:Transform::from_translation(vec3(-28., 60., 10.)),
-            ..default()
-        },
-        RigidBody::Static,
-        Collider::rectangle(27.,7.), 
-        //DebugRender::default().with_collider_color(Color::srgb(1.0, 1.0, 0.0))
-        ))
-        .insert(brick).insert(Name::from("brick10"));
 }

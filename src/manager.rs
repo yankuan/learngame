@@ -200,6 +200,19 @@ impl AnimationManager {
     impl_animation_manager_field!(flip_x, bool);
     impl_animation_manager_field!(flip_y, bool);
 
+    /// Resets the key and automatically sets the points to match the new sprite
+    pub fn reset_key_with_points(&mut self, val: impl Into<String>, commands: &mut Commands) {
+        let key: String = val.into();
+        self.reset_key(key.clone(), commands);
+        let size = self.map.get(&key).unwrap().sprite.size;
+        let points = simple_rect(size.x as f32, size.y as f32);
+        self.reset_points(points, commands);
+        self.reset_force_index(0);
+    }
+    pub fn reset_force_index(&mut self, ix: u32) {
+        self.force_index = Some(ix);
+    }
+
 }
 
 /// Helpful functions for constructing AnimationManagers
@@ -237,6 +250,7 @@ impl AnimationManager {
             ..default()
         }
     }
+
 
     /// Creates an animation manager with the provided nodes and labels.
     /// The first node in the list will be the initial animation
@@ -327,6 +341,7 @@ impl MultiAnimationManager {
         // NOTE: This doesn't actually check if there are multiple, slightly different from bevy convention
         self.map.values().next().unwrap()
     }
+    
 
     pub fn single_mut(&mut self) -> &mut AnimationManager {
         // NOTE: This doesn't actually check if there are multiple, slightly different from bevy convention
