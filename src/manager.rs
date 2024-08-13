@@ -386,7 +386,6 @@ fn stabilize_multi_animations(
   ) {
        
       for (eid, mut multi, children) in multis.iter_mut() {
-            println!("bbbbbbbbbbbb");
           if let Some(children) = children {
               for child in children.iter() {
                   if bodies.contains(*child) {
@@ -441,7 +440,7 @@ fn update_animation_bodies(
       mut mats: ResMut<Assets<AnimationMaterial>>,
       mut meshes: ResMut<Assets<Mesh>>,
   ) {
-      let mut killed_mids = HashSet::new();
+      //let mut killed_mids = HashSet::new();
       for (
             eid,
             parent,
@@ -464,7 +463,7 @@ fn update_animation_bodies(
                   };
                   if manager.key.as_str() == "despawn" {
                         commands.entity(mid).despawn_recursive();
-                        killed_mids.insert(mid);
+                        //killed_mids.insert(mid);
                         continue;
                   }
                   let current_node = manager.current_node();
@@ -475,7 +474,7 @@ fn update_animation_bodies(
             for (key, node) in manager.map.iter() {
             
                   if !map.handle_map.contains_key(key) {
-                        println!("{:?}",&node.sprite.path);
+                        //println!("{:?}",&node.sprite.path);
                         let handle = asset_server.load(&node.sprite.path);
                         map.handle_map.insert(key.clone(), handle);
                   }

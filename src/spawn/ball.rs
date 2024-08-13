@@ -40,6 +40,7 @@ fn on_spawn_ball(
 ) {
       let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
       trans_ball.translation = trigger.event().0;
+      gs.0 = 0.;
       *ballsta = Ballstatus::Nomove;
       //println!("{}",trigger.event().0);  
 }
