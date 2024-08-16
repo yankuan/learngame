@@ -237,7 +237,7 @@ fn initcreate(
 
     commands.spawn(MaterialMesh2dBundle {
         mesh: mesh_handle,
-        material: materials.add(Color::srgba_u8(231, 63, 63, 255)),
+        material: materials.add(Color::srgba_u8(190, 107, 107, 255)),
         transform: Transform::from_translation(Vec3::new(100.,50., 1.)),
         ..default()
     }).insert(Name::from("sun"));
@@ -245,9 +245,9 @@ fn initcreate(
 
     commands.spawn(PointLight2dBundle {
         point_light: PointLight2d {
-            color:Color::srgba_u8(231, 63, 63, 255),
+            color:Color::srgba_u8(190, 107, 107, 255),
             radius: 500.0,
-            intensity: 1.9,
+            intensity: 1.2,
             falloff:180.,
             //cast_shadows:true,
             ..default()
