@@ -8,6 +8,9 @@ use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 
 use avian2d::{math::*, parry::shape::SharedShape, prelude::*};
+use bevy_light_2d::prelude::*;
+use bevy::{sprite::{MaterialMesh2dBundle, Mesh2dHandle}};
+
 use states::GameState;
 
 mod states;
@@ -72,6 +75,7 @@ fn main() {
     //.add_plugins(FrameTimeDiagnosticsPlugin::default())
     .add_plugins(PhysicsPlugins ::default().with_length_unit(0.0))
     //.add_plugins(PhysicsDebugPlugin::default())
+    .add_plugins(Light2dPlugin)
     .add_plugins(DebugPlugin)
     .add_plugins(screen::plugin)
     .add_plugins(game::plugin)
@@ -85,6 +89,7 @@ fn main() {
     .add_systems(Update, (draw_example_collection,update_scoreboard))
     .insert_resource(Score(0))
     .insert_resource(ClearColor(Color::srgb(0.678, 0.847, 0.902)));
+    //.insert_resource(ClearColor(Color::BLACK));
 
     app.run();
 }
@@ -93,7 +98,9 @@ fn main() {
 fn initcreate3(
     mut commands: Commands,
 ){
-    BackgroundKind::SkyOnly.spawn(default(), &mut commands);
+
+    //BackgroundKind::SkyOnly.spawn(default(), &mut commands);
+    BackgroundKind::Zenith.spawn(default(), &mut commands);
 }
 
 fn spawn_sprite(commands: &mut Commands, asset_server: &AssetServer, position: Vec3, name: &str) {  
@@ -205,7 +212,8 @@ fn update_scoreboard(score: Res<Score>, mut query: Query<&mut Text, With<Scorebo
 
 fn initcreate(
     mut commands: Commands,
- 
+    mut meshes: ResMut<Assets<Mesh>>, 
+    mut materials: ResMut<Assets<ColorMaterial>>,
     asset_server: Res<AssetServer>,
     window: Query<Entity, With<PrimaryWindow>>,
 ){
@@ -223,6 +231,30 @@ fn initcreate(
         projection:projection1,
         ..default()
     });
+
+    let mesh_handle = Mesh2dHandle(meshes.add(Circle::new(10.)));
+    
+
+    commands.spawn(MaterialMesh2dBundle {
+        mesh: mesh_handle,
+        material: materials.add(Color::srgba_u8(231, 63, 63, 255)),
+        transform: Transform::from_translation(Vec3::new(100.,50., 1.)),
+        ..default()
+    }).insert(Name::from("sun"));
+    
+
+    commands.spawn(PointLight2dBundle {
+        point_light: PointLight2d {
+            color:Color::srgba_u8(231, 63, 63, 255),
+            radius: 500.0,
+            intensity: 1.9,
+            falloff:180.,
+            //cast_shadows:true,
+            ..default()
+        },
+        transform: Transform::from_translation(Vec3::new(100.,50., 1.)),
+        ..default()
+    }).insert(Name::from("sunlight"));
     
     //commands.spawn(Camera2dBundle::default());
     //ball

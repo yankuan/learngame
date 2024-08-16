@@ -22,7 +22,7 @@ fn spawn_sky(commands: &mut ChildBuilder) {
     ));
     commands.spawn((
         Name::new("far_clouds"),
-        spat_tran(0.0, 30.0, 1.0),
+        spat_tran(0.0, 30.0, 2.0),
         multi!(anim_man!({
             path: "debug/background_clouds_far.png",
             size: (IDEAL_WIDTH, IDEAL_HEIGHT),
@@ -32,7 +32,7 @@ fn spawn_sky(commands: &mut ChildBuilder) {
     ));
     commands.spawn((
         Name::new("close_clouds"),
-        spat_tran(0.0, 30.0, 2.0),
+        spat_tran(0.0, 30.0, 3.0),
         multi!(anim_man!({
             path: "debug/background_clouds_close.png",
             size: (IDEAL_WIDTH, IDEAL_HEIGHT),
@@ -64,12 +64,12 @@ impl BackgroundKind {
                     spawn_sky(commands);
                     commands.spawn((
                         Name::new("mountains"),
-                        spat_tran(0.0, 0.0, 3.0),
+                        spat_tran(0.0, 0.0, 4.0),
                         multi!(anim_man!({
                             path: "debug/background.png",
                             size: (IDEAL_WIDTH, IDEAL_HEIGHT),
-                        }))
-                        //.with_render_layers(BgSpriteCamera::render_layers())),
+                        })
+                        .with_render_layers(BgSpriteCamera::render_layers())),
                     ));
                 }
                 BackgroundKind::Forest => {
