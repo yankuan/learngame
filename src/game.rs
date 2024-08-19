@@ -90,18 +90,24 @@ pub fn format_game_time(duration: Duration) -> String {
 
 
 fn player_stop(
+      mut commands: Commands,
       mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
       mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
       mut state: ResMut<State<GameState>>
 ){ 
       if *state == GameState::Death {
-      
+            
             let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
             //let Ok((ent_checkover)) = checkovers.get_single_mut() else { return;};
             let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
+            /*
             linear.x = 0.;
             linear_ball.x = 0.;
+            linear_ball.y = 0.;
             ang_ball.0 = 0.;
+            */
+            commands.entity(ent_ball).despawn();
+            commands.entity(ent_player).despawn();
       }
 }
 

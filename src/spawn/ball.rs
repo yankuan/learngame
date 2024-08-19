@@ -36,11 +36,38 @@ fn on_respawn(
 fn on_spawn_ball(
       trigger: Trigger<SpawnBall>,
       mut cmd: Commands,
+      asset_server: Res<AssetServer>,
       mut balls:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity,&mut Ballstatus,&mut GravityScale),(With<ball>,Without<player>,Without<wall>,Without<brick>)>,
 ) {
+      /*
       let Ok((ent_ball,mut trans_ball, mut linear_ball,mut ang_ball, mut ballsta, mut gs)) = balls.get_single_mut() else { return;};
       trans_ball.translation = trigger.event().0;
       gs.0 = 0.;
       *ballsta = Ballstatus::Nomove;
+      */
       //println!("{}",trigger.event().0);  
+      if balls.is_empty() {
+            cmd.spawn((
+                  SpriteBundle {
+                      texture: asset_server.load("branding/32ball.png"),
+                      //transform: Transform::from_translation(Vec3::new(0.,-64., 10.)),
+                      transform:Transform { 
+                          translation: Vec3::new(0.,-64., 10.),
+                          scale:Vec3::new(0.25,0.25, 1.),
+                          ..default()
+                      },
+                      ..default()
+                  },
+                  ball,
+                  Ballstatus::Nomove,
+                  RigidBody::Dynamic,
+                  GravityScale(0.0),
+                  Collider::circle(16.),
+                  //Collider::rectangle(32.,32.), 
+                  SweptCcd::default(),
+                  //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
+                  ))
+                  .insert(Name::from("ball")
+              ); 
+      }
 }

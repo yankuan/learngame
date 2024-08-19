@@ -38,15 +38,40 @@ fn on_respawn(
 fn on_spawn_player(
       trigger: Trigger<SpawnPlayer>,
       mut cmd: Commands,
+      asset_server: Res<AssetServer>,
       mut score: ResMut<Score>,
       mut next_state: ResMut<NextState<GameState>>,
       mut game_time: ResMut<GameTime>,
       mut players:Query<(Entity,&mut Transform, &mut LinearVelocity,&mut AngularVelocity),(With<player>,Without<wall>,Without<brick>)>,
 ) {
+      /* 
       let Ok((ent_player,mut trans, mut linear,mut ang)) = players.get_single_mut() else { return};
       trans.translation = trigger.event().0;
+      
+      game_time.0 = Duration::ZERO;
+      next_state.set(GameState::Wait);
+      //println!("{}"u,trigger.event().0);
+      */
       **score = 0;
       game_time.0 = Duration::ZERO;
       next_state.set(GameState::Wait);
-      //println!("{}"u,trigger.event().0);  
+      if players.is_empty() {
+            //player
+            cmd.spawn((
+                  SpriteBundle {
+                  texture: asset_server.load("branding/10_64player.png"),
+                  transform: Transform::from_translation(Vec3::new(0.,-74., 10.)),
+                  ..default()
+                  },
+                  player,
+                  RigidBody::Kinematic,
+                  GravityScale(0.0),
+                  //Collider::circle(16.),
+                  Collider::rectangle(64.,11.), 
+                  //SweptCcd::default(),
+                  //DebugRender::default().with_collider_color(Color::srgb(1.0, 0.0, 0.0))
+                  ))
+                  .insert(Name::from("player")
+            );
+      }
 }
